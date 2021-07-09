@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "984693008178",
+    "project_id": "hospitalqr",
+    "storage_bucket": "hospitalqr.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:984693008178:android:083c1fd642362d2ee7592b",
+        "android_client_info": {
+          "package_name": "com.example.hospitalqr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "984693008178-mnf161funv176jjabeus5d434um41haq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJ0YXMgAdI7cEr_Ugg0xQWKmjmQ6qunVY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "984693008178-mnf161funv176jjabeus5d434um41haq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

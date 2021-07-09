@@ -14,7 +14,8 @@
         <com.otaliastudios.cameraview.CameraView
             android:id="@+id/cameaview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            app:cameraAudio="off" />
         <View
             android:layout_gravity="center"
             android:layout_width="200dp"
