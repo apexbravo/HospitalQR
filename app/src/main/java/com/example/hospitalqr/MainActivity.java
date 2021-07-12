@@ -86,14 +86,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void processImage(FirebaseVisionImage image) {
+        int i=0;
         if(!isDetected){
           //  Toast.makeText(MainActivity.this,"Detecitng ", Toast.LENGTH_LONG).show();
             mDetector.detectInImage(image)
                     .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionBarcode>>() {
                         @Override
                         public void onSuccess(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
-                            processResult(firebaseVisionBarcodes);
-
+                            if (!isDetected) {
+                                processResult(firebaseVisionBarcodes);
+                            }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                 @Override
@@ -101,12 +103,13 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this,"" + e.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             });
+
         }
     }
 
     private void processResult(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
-        int i=0;
-        if(firebaseVisionBarcodes.size()>0 && i<2)
+
+        if (firebaseVisionBarcodes.size()>0 )
         {
             isDetected = true;
             mButtonStart_Again.setEnabled(isDetected);
@@ -138,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
             }
-            i--;
+
         }
 
     }

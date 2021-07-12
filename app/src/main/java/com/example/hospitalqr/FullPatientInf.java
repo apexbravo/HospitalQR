@@ -36,11 +36,12 @@ public class FullPatientInf extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         DatabaseReference mDatabase;
 // ...
+        String patient1 = getIntent().getStringExtra(Patient_INFO);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference mwritefarmref = mDatabase.child("Patient1");
+        DatabaseReference mwritefarmref = mDatabase.child(patient1);
         Query pat1 = mDatabase.equalTo("Patient");
 
-            String patient1 = getIntent().getStringExtra(Patient_INFO);
+
            // binding.PName.setText(patient1);
 
         mwritefarmref.addValueEventListener(new ValueEventListener() {
