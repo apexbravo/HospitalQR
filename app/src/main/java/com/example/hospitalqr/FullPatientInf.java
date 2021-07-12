@@ -50,12 +50,16 @@ public class FullPatientInf extends AppCompatActivity {
 
                         Patient patient = snapshot.getValue(Patient.class);
                         String PAdress = patient.getPat_Address();
-                        String Diagnosed = patient.Pat_Diagnosed;
+                        binding.Patadd.setText(PAdress);
+                        String Diagnosed = patient.getPat_Diagnosed();
+                        binding.PatDiagnosis.setText(Diagnosed);
                         int PID = patient.getPat_ID();
                    mPatientName = patient.getPat_Name();
-                    binding.PName.setText(mPatientName);
+                    binding.PatName.setText(mPatientName);
                         String PPhoneNumber = patient.getPat_PhoneNumber();
+                        binding.PatNumber.setText(PPhoneNumber);
                         String PSurname = patient.getPat_Surname();
+                        binding.PatSurname.setText(PSurname);
 
                     Log.i(TAG, "onDataChange: " + PID);
                 }
