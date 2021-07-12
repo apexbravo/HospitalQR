@@ -105,7 +105,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void processResult(List<FirebaseVisionBarcode> firebaseVisionBarcodes) {
-        if(firebaseVisionBarcodes.size()>0)
+        int i=0;
+        if(firebaseVisionBarcodes.size()>0 && i<2)
         {
             isDetected = true;
             mButtonStart_Again.setEnabled(isDetected);
@@ -116,19 +117,28 @@ public class MainActivity extends AppCompatActivity {
 
                 int value_type = item.getValueType();
                 switch (value_type){
-                    case FirebaseVisionBarcode.TYPE_TEXT:
-                        createDialog(item.getRawValue());
-                        break;
+                    case FirebaseVisionBarcode.TYPE_TEXT: {
+                        Intent intent = new Intent(this,FullPatientInf.class);
+                        intent.putExtra(FullPatientInf.Patient_INFO,item.getRawValue());
+                        startActivity(intent);
+                        break;// so that it can only access the database once
+
+
+                        //createDialog(item.getRawValue());
+                    }
+
 
                     case FirebaseVisionBarcode.TYPE_URL: {
                         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getRawValue()));
                         startActivity(intent);
+
                     }
                     break;
                     default:
                         break;
                 }
             }
+            i--;
         }
 
     }
