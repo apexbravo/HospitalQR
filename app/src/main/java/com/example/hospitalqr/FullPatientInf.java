@@ -11,7 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.LayoutAnimationController;
+import android.widget.EditText;
 
 import androidx.navigation.ui.AppBarConfiguration;
 
@@ -38,7 +41,7 @@ public class FullPatientInf extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DatabaseReference mDatabase;
-        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
 // ...
         String patient1 = getIntent().getStringExtra(Patient_INFO);
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -86,17 +89,65 @@ public class FullPatientInf extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mBuilder.setMessage("ApexBravo Developers \napxbravone@gmail.com \n \nTsumoApp \n \nThis application , the developers and contributors  assume no responsibility  whatsoever for its usage by other parties \n \nThis app is still a work in progress therefore please share your reviews , we want to know if you like the product and what improvements can be made.").setTitle("TsumoApp Licences").setPositiveButton("Ok ,I Understand", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alert = mBuilder.create();
-
-                mBuilder.show();
+                showDialog();
             }
         });
+    }
+        //Method to promp password when wanting to edit
+    private void showDialog() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View promptsView = li.inflate(R.layout.searchprompt,null);
+
+        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setView(promptsView);
+
+        final EditText userInput = (EditText) promptsView.findViewById(R.id.user_input);
+
+        alertDialogBuilder.setCancelable(false)
+                .setNegativeButton("Go",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String user_text = (userInput.getText()).toString();
+
+                                if(user_text.equals("Able"))
+                                {
+                                    binding.PatName.setEnabled(true);
+                                    binding.PatName.requestFocus();
+                                    binding.Patadd.setEnabled(true);
+                                    binding.PatSurname.setEnabled(true);
+                                    binding.PatNumber.setEnabled(true);
+                                    binding.PatDiagnosis.setEnabled(true);
+
+                                }
+                                else
+                                {
+                                    String message = "The password you have entered is incorrect \n \n  Please try again";
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(FullPatientInf.this);
+                                    builder.setTitle("Error");
+                                    builder.setMessage(message);
+                                    builder.setPositiveButton("Cancel", null);
+                                    builder.setNegativeButton("Retry", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            showDialog();
+                                        }
+                                    });
+                                    builder.create().show();
+
+                                }
+                            }
+                        })
+                        .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
     }
 
     @Override
