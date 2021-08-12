@@ -1,5 +1,7 @@
 package com.example.hospitalqr;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -31,10 +33,12 @@ public class FullPatientInf extends AppCompatActivity {
     private ActivityFullPatientInfBinding binding;
     private String mPatientName;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DatabaseReference mDatabase;
+        AlertDialog.Builder mBuilder = new AlertDialog.Builder(getApplicationContext());
 // ...
         String patient1 = getIntent().getStringExtra(Patient_INFO);
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -82,8 +86,15 @@ public class FullPatientInf extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                mBuilder.setMessage("ApexBravo Developers \napxbravone@gmail.com \n \nTsumoApp \n \nThis application , the developers and contributors  assume no responsibility  whatsoever for its usage by other parties \n \nThis app is still a work in progress therefore please share your reviews , we want to know if you like the product and what improvements can be made.").setTitle("TsumoApp Licences").setPositiveButton("Ok ,I Understand", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+                AlertDialog alert = mBuilder.create();
+
+                mBuilder.show();
             }
         });
     }
