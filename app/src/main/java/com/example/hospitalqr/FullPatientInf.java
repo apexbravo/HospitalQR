@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
 
+import androidx.core.content.ContextCompat;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.hospitalqr.databinding.ActivityFullPatientInfBinding;
@@ -43,6 +44,8 @@ public class FullPatientInf extends AppCompatActivity {
         DatabaseReference mDatabase;
         AlertDialog.Builder mBuilder = new AlertDialog.Builder(this);
 // ...
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
         String patient1 = getIntent().getStringExtra(Patient_INFO);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         DatabaseReference mwritefarmref = mDatabase.child(patient1);
@@ -112,6 +115,7 @@ public class FullPatientInf extends AppCompatActivity {
 
                                 if(user_text.equals("Able"))
                                 {
+                                    binding.fab.setImageDrawable(ContextCompat.getDrawable(FullPatientInf.this,R.drawable.ic_baseline_save_24));
                                     binding.PatName.setEnabled(true);
                                     binding.PatName.requestFocus();
                                     binding.Patadd.setEnabled(true);
