@@ -100,15 +100,26 @@ public class FullPatientInf extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(savestate == false)
+                if(!savestate)
                 showDialog();
                 else
                 {
                     saveEntry();
+                    closeEditing();
+
                 }
 
             }
         });
+    }
+
+    private void closeEditing() {
+        binding.fab.setImageDrawable(ContextCompat.getDrawable(FullPatientInf.this,R.drawable.ic_baseline_edit_24));
+        binding.PatName.setEnabled(false);
+        binding.Patadd.setEnabled(false);
+        binding.PatSurname.setEnabled(false);
+        binding.PatNumber.setEnabled(false);
+        binding.PatDiagnosis.setEnabled(false);
     }
 
     private void saveEntry() {
