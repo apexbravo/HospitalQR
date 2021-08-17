@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void processImage(FirebaseVisionImage image) {
-        int i=0;
+
         if(!isDetected){
           //  Toast.makeText(MainActivity.this,"Detecitng ", Toast.LENGTH_LONG).show();
             mDetector.detectInImage(image)

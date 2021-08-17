@@ -11,6 +11,15 @@ public class Patient {
     public Patient() {
     }
 
+    public Patient(String pat_Address, String pat_Diagnosed, String pat_Name, String pat_Surname, String pat_PhoneNumber) {
+        Pat_Address = pat_Address;
+        Pat_Diagnosed = pat_Diagnosed;
+        Pat_ID = 1;
+        Pat_Name = pat_Name;
+        Pat_Surname = pat_Surname;
+        Pat_PhoneNumber = pat_PhoneNumber;
+    }
+
     public String getPat_Address() {
         return Pat_Address;
     }

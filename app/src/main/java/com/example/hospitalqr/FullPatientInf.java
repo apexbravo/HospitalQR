@@ -15,11 +15,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.LayoutAnimationController;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.example.hospitalqr.databinding.ActivityFullPatientInfBinding;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,6 +31,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
+import java.util.Objects;
+
 import static android.content.ContentValues.TAG;
 
 public class FullPatientInf extends AppCompatActivity {
@@ -36,6 +41,9 @@ public class FullPatientInf extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityFullPatientInfBinding binding;
     private String mPatientName;
+    private boolean savestate = false;
+    private DatabaseReference mwritefarmref;
+    private String patient1;
 
 
     @Override
@@ -46,9 +54,9 @@ public class FullPatientInf extends AppCompatActivity {
 // ...
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        String patient1 = getIntent().getStringExtra(Patient_INFO);
+        patient1 = getIntent().getStringExtra(Patient_INFO);
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference mwritefarmref = mDatabase.child(patient1);
+        mwritefarmref = mDatabase.child(patient1);
         Query pat1 = mDatabase.equalTo("Patient");
 
 
@@ -92,11 +100,42 @@ public class FullPatientInf extends AppCompatActivity {
         binding.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(savestate == false)
                 showDialog();
+                else
+                {
+                    saveEntry();
+                }
+
             }
         });
     }
-        //Method to promp password when wanting to edit
+
+    private void saveEntry() {
+        String address = binding.Patadd.getText().toString().trim();
+        String name = binding.PatName.getText().toString().trim();
+        String surname = binding.PatSurname.getText().toString().trim();
+        String diagnosis = binding.PatDiagnosis.getText().toString().trim();
+        String phoneNumber = binding.PatNumber.getText().toString().trim();
+
+        DatabaseReference dR = FirebaseDatabase.getInstance().getReference().child(patient1);
+
+
+        Patient patient = new Patient(address,diagnosis,name,surname,phoneNumber);
+        mwritefarmref.push().setValue(patient);
+        HashMap<String,Object> data = new HashMap<>();
+
+        data.put("Pat_Address",address);
+        data.put("Pat_Diagnosed",diagnosis);
+        data.put("Pat_Name",name);
+        data.put("Pat_PhoneNumber",phoneNumber);
+        data.put("Pat_Surname", surname);
+
+        dR.updateChildren(data);
+        Toast.makeText(FullPatientInf.this, "Record Updated", Toast.LENGTH_SHORT).show();
+    }
+
+    //Method to promp password when wanting to edit
     private void showDialog() {
         LayoutInflater li = LayoutInflater.from(this);
         View promptsView = li.inflate(R.layout.searchprompt,null);
@@ -115,6 +154,7 @@ public class FullPatientInf extends AppCompatActivity {
 
                                 if(user_text.equals("Able"))
                                 {
+                                    savestate = true;
                                     binding.fab.setImageDrawable(ContextCompat.getDrawable(FullPatientInf.this,R.drawable.ic_baseline_save_24));
                                     binding.PatName.setEnabled(true);
                                     binding.PatName.requestFocus();
